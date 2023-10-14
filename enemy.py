@@ -8,18 +8,23 @@ class Enemy:
         self.game = game
         self.image = image
         self.alive = True
-        self.x_speed = (variation + 1) * self.game.difficulty
-        self.y_speed = (variation + 1) * self.game.difficulty
+        self.x_speed = ENEMY_SPEEDS[variation] * self.game.delta_time
+        self.y_speed = ENEMY_SPEEDS[variation] * self.game.delta_time
         self.x = randint(0, SCREEN_WIDTH - self.image.get_width())
         self.y = - self.image.get_height()
         self.points = ceil((variation + 1) * self.game.difficulty)
 
     def movement(self):
-        if self.x <= 0 or self.x >= SCREEN_WIDTH - self.image.get_width():
-             self.x_speed = -self.x_speed
-             self.y += self.y_speed
-        else:
-             self.x += self.x_speed
+        if self.x + self.x_speed <= 0:
+            self.x = 0
+            self.y += self.y_speed
+            self.x_speed = -self.x_speed
+        elif self.x + self.x_speed >= SCREEN_WIDTH - self.image.get_width():
+            self.x = SCREEN_WIDTH - self.image.get_width()
+            self.y += self.y_speed
+            self.x_speed = -self.x_speed
+        
+        self.x += self.x_speed
 
     def check_invasion(self):
         if self.y >= SCREEN_HEIGHT:

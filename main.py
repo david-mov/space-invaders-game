@@ -29,7 +29,7 @@ class Game:
 
         self.is_playing = False
         self.is_game_over = False
-        self.difficulty = 1
+        self.difficulty = BASE_DIFFICULTY
 
         self.global_fonts()
 
@@ -54,14 +54,16 @@ class Game:
             self.is_playing = False
     
     def increase_difficulty(self):
-        if self.difficulty < 6:
-            self.difficulty = self.difficulty * 1.2
+        if self.difficulty < MAX_DIFFICULTY:
+            self.difficulty = self.difficulty + DIFFICULTY_INCREMENT
         else:
-            self.difficulty = 6
+            self.difficulty = MAX_DIFFICULTY
 
     def update(self):
         self.delta_time = self.clock.tick(FPS)
         self.background.update()
+
+        self.check_game_over()
 
         if not self.is_playing:
             if not self.is_game_over:
@@ -84,9 +86,10 @@ class Game:
                 self.game_over.draw()
                 self.score.draw()
         else:
-            self.player.draw()
             self.enemies.draw()
+            self.player.draw()
             self.bullet.draw()
+            self.score.draw()
 
     def check_events(self):
         for event in pg.event.get():

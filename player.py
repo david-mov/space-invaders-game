@@ -6,6 +6,7 @@ class Player:
         self.game = game
         self.x, self.y = PLAYER_POS
         self.image = pg.image.load(f'{IMAGE_PATH}/player.png')
+        self.speed = PLAYER_SPEED * self.game.delta_time
 
     def single_fire_event(self, event):
         if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
@@ -14,14 +15,13 @@ class Player:
                 self.game.bullet.shot(self.x)
     
     def movement(self):
-        speed = PLAYER_SPEED * self.game.delta_time
         dx = 0
 
         keys = pg.key.get_pressed()
         if keys[pg.K_RIGHT]:
-            dx += speed
+            dx += self.speed
         if keys[pg.K_LEFT]:
-            dx -= speed
+            dx -= self.speed
 
         self.check_wall_collision(dx)
 

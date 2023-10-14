@@ -5,7 +5,7 @@ class Bullet:
     def __init__(self, game):
         self.game = game
         self.image = pg.image.load(f'{IMAGE_PATH}/bullet.png')
-        self.speed = BULLET_SPEED
+        self.speed = BULLET_SPEED * self.game.delta_time
         self.ready = True
         self.x = self.game.player.x + BULLET_X_DIST
         self.y = self.game.player.y + BULLET_Y_DIST
@@ -21,7 +21,7 @@ class Bullet:
     def update(self):
         if not self.ready:
             self.y -= self.speed
-            if self.y <= 0:
+            if self.y <= -self.image.get_height():
                 self.reset()
 
     def draw(self):

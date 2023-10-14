@@ -16,7 +16,7 @@ class Enemies:
         self.enemies.append(Enemy(self.game, variation, self.images[variation]))
     
     def generate_many(self):
-        for n in range(1, self.num_of_enemies):
+        for n in range(self.num_of_enemies):
             self.generate_one_random()
 
     def check_dead(self, idx):
@@ -30,4 +30,5 @@ class Enemies:
             self.check_dead(idx)
 
     def draw(self):
-        [enemy.draw() for enemy in self.enemies]
+        for enemy in self.enemies:
+            enemy.draw()
